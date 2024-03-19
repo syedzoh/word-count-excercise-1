@@ -1,0 +1,36 @@
+# Simple workflow for deploying static content to GitHub Pages
+name: Run tests
+
+on: [push]
+
+jobs:
+  run:
+    runs-on: ubuntu-22.04
+
+    env:
+      # Directory that will be published on github pages
+      DATADIR: ./data
+      FIGDIR: ./artifacts/figures
+      RESULTDIR: ./artifacts/results
+
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.10"
+
+      - name: Install dependencies
+        run: python3 -m pip install -r requirements.txt
+
+      - name: Run all experiments
+        run: python3 run_all_experiments.py
+
+      - name: Upload artifact
+        if: always()
+        uses: actions/upload-artifact@v3
+        with:
+          path: ./artifacts
+          if-no-files-found: error
