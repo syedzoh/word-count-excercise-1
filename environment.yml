@@ -1,0 +1,6 @@
+name: word-count
+channels:
+  - conda-forge
+dependencies:
+  - python
+  - matplotlib
